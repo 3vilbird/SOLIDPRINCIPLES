@@ -204,6 +204,9 @@ now add the implimentation class
 
 ##  Liskov Substitution Principle
 
+The Liskov Substitution Principle (LSP) states, "you should be able to use any derived class instead of a parent class and have it behave in the same manner without modification.". 
+It ensures that a derived class does not affect the behavior of the parent class; in other words, a derived class must be substitutable for its base class.
+
 
 
 
