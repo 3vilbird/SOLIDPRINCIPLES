@@ -208,5 +208,226 @@ The Liskov Substitution Principle (LSP) states, "you should be able to use any d
 It ensures that a derived class does not affect the behavior of the parent class; in other words, a derived class must be substitutable for its base class.
 
 
+```c#
+using System;
+namespace SOLID_PRINCIPLES.LSP
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Apple apple = new Orange();
+            Console.WriteLine(apple.GetColor());
+        }
+    }
+    public class Apple
+    {
+        public virtual string GetColor()
+        {
+            return "Red";
+        }
+    }
+    public class Orange : Apple
+    {
+        public override string GetColor()
+        {
+            return "Orange";
+        }
+    }
+}
+
+```
+
+i think a way it might be more clear is to say Fruit can be any type and any color, but a orange cannot be the color red and an apple cannot be of color orange , meaning we cannot replace a orange with an apple but fruit can be replaced with an orange or an apple because they are both Fruits, a apple is not an orange and a orange is not a apple.
+
+Lets say the base class was Cooldrinks, and a sub class was Coke and the other Fanta Orange, then we would be able to replace the Base Type (cooldrinks) with either Coke or Fanta Orange because they are both Cooldrinks but if we ask for a Coke we do not expect or want a Fanta we want a Coke , if we ask for cooldrink we do not know what we will receive and any of the 2 would be sufficient. So if the base type is the same any of the 2 would work but we specifically want one sub type another would not be sufficient.
+
+
+
+AFTER APPLYING THE LISKOVES SUBSTITUTION PRINCLIPLE.
+
+```c#
+
+using System;
+namespace SOLID_PRINCIPLES.LSP
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            IFruit fruit = new Orange();
+            Console.WriteLine($"Color of Orange: {fruit.GetColor()}");
+            fruit = new Apple();
+            Console.WriteLine($"Color of Apple: {fruit.GetColor()}");
+            Console.ReadKey();
+        }
+    }
+    public interface IFruit
+    {
+        string GetColor();
+    }
+    public class Apple : IFruit
+    {
+        public string GetColor()
+        {
+            return "Red";
+        }
+    }
+    public class Orange : IFruit
+    {
+        public string GetColor()
+        {
+            return "Orange";
+        }
+    }
+}
+
+```
+
+
+
+
+
+more example
+
+
+
+```c#
+
+using System;
+
+class Shape
+{
+    public virtual void Draw()
+    {
+        Console.WriteLine("Drawing a shape");
+    }
+}
+
+class Circle : Shape
+{
+    public override void Draw()
+    {
+        Console.WriteLine("Drawing a circle");
+    }
+}
+
+class Square : Shape
+{
+    public override void Draw()
+    {
+        Console.WriteLine("Drawing a square");
+    }
+}
+
+class Program
+{
+    static void DrawShape(Shape shape)
+    {
+        shape.Draw();
+    }
+
+    static void Main(string[] args)
+    {
+        Shape shape1 = new Circle();
+        Shape shape2 = new Square();
+
+        DrawShape(shape1); // Drawing a circle
+        DrawShape(shape2); // Drawing a square
+    }
+}
+
+
+```
+
+
+one more example
+
+```c#
+
+using System;
+
+class BankAccount
+{
+    protected decimal balance;
+
+    public BankAccount(decimal initialBalance)
+    {
+        balance = initialBalance;
+    }
+
+    public virtual void Withdraw(decimal amount)
+    {
+        if (amount <= balance)
+        {
+            balance -= amount;
+            Console.WriteLine($"Withdrawn {amount:C}. New balance: {balance:C}");
+        }
+        else
+        {
+            Console.WriteLine("Insufficient funds");
+        }
+    }
+}
+
+class SavingsAccount : BankAccount
+{
+    public SavingsAccount(decimal initialBalance) : base(initialBalance)
+    {
+    }
+
+    public override void Withdraw(decimal amount)
+    {
+        if (amount <= balance && amount <= 1000)
+        {
+            balance -= amount;
+            Console.WriteLine($"Withdrawn {amount:C} from savings account. New balance: {balance:C}");
+        }
+        else
+        {
+            Console.WriteLine("Insufficient funds or withdrawal limit exceeded");
+        }
+    }
+}
+
+class CheckingAccount : BankAccount
+{
+    public CheckingAccount(decimal initialBalance) : base(initialBalance)
+    {
+    }
+
+    public override void Withdraw(decimal amount)
+    {
+        if (amount <= balance)
+        {
+            balance -= amount;
+            Console.WriteLine($"Withdrawn {amount:C} from checking account. New balance: {balance:C}");
+        }
+        else
+        {
+            Console.WriteLine("Insufficient funds");
+        }
+    }
+}
+
+class Program
+{
+    static void Main(string[] args)
+    {
+        BankAccount savingsAccount = new SavingsAccount(5000);
+        BankAccount checkingAccount = new CheckingAccount(3000);
+
+        savingsAccount.Withdraw(200); // Withdrawn $200 from savings account. New balance: $4800
+        checkingAccount.Withdraw(500); // Withdrawn $500 from checking account. New balance: $2500
+
+        // Now let's demonstrate Liskov's Substitution Principle
+        BankAccount account = new SavingsAccount(2000);
+        account.Withdraw(1500); // Withdrawn $1500 from savings account. New balance: $500
+    }
+}
+
+
+```
+
 
 
