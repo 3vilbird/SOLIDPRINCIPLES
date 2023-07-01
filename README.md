@@ -510,6 +510,67 @@ public interface ILead
 ```
 
 
+Then the implementation becomes.
+
+
+```c#
+public class Programmer: IProgrammer
+{
+   public void WorkOnTask()
+   {
+      //code to implement to work on the Task.
+   }
+}
+public class Manager: ILead
+{
+   public void AssignTask()
+   {
+      //Code to assign a Task
+   }
+   public void CreateSubTask()
+   {
+   //Code to create a sub taks from a task.
+   }
+}
+
+```
+
+Now for  team lead 
+
+
+```c#
+
+public class TeamLead: IProgrammer, ILead
+{
+   public void AssignTask()
+   {
+      //Code to assign a Task
+   }
+   public void CreateSubTask()
+   {
+      //Code to create a sub task from a task.
+   }
+   public void WorkOnTask()
+   {
+      //code to implement to work on the Task.
+   }
+}
+
+
+```
+Wow. Here we separated responsibilities/purposes, distributed them on multiple interfaces, and provided good abstraction.
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
