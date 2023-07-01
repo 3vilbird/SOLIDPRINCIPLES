@@ -561,6 +561,7 @@ public class TeamLead: IProgrammer, ILead
 Wow. Here we separated responsibilities/purposes, distributed them on multiple interfaces, and provided good abstraction.
 
 
+## Dependency Inversion Principle.
 
 
 
