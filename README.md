@@ -436,7 +436,79 @@ The Interface Segregation Principle states "that clients should not be forced to
 Instead of one fat interface, many small interfaces are preferred based on groups of methods, each serving one submodule.".
 
 
-lets say we have a heirarchy of programmer->
+lets say we have a heirarchy of programmer->techlead->manager
+
+the example without ISP wolud look like below.
+
+
+```c#
+public Interface ILead
+{
+   void CreateSubTask();
+   void AssginTask();
+   void WorkOnTask();
+}
+public class TeamLead : ILead
+{
+   public void AssignTask()
+   {
+      //Code to assign a task.
+   }
+   public void CreateSubTask()
+   {
+      //Code to create a sub task
+   }
+   public void WorkOnTask()
+   {
+      //Code to implement perform assigned task.
+   }
+}
+
+// simlaraly for manager
+
+public class Manager: ILead
+{
+   public void AssignTask()
+   {
+      //Code to assign a task.
+   }
+   public void CreateSubTask()
+   {
+      //Code to create a sub task.
+   }
+   public void WorkOnTask()
+   {
+      throw new Exception("Manager can't work on Task");
+   }
+}
+
+```
+
+But here manager will not work on the task so we have inconsistency so lets divied the interface.
+
+
+```c#
+
+public interface IProgrammer
+{
+   void WorkOnTask();
+}
+
+
+```
+
+for manager ans tech lead
+
+```c#
+public interface ILead
+{
+   void AssignTask();
+   void CreateSubTask();
+}
+
+
+```
+
 
 
 
