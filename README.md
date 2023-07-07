@@ -563,6 +563,177 @@ Wow. Here we separated responsibilities/purposes, distributed them on multiple i
 
 ## Dependency Inversion Principle.
 
+The Dependency Inversion Principle (DIP) states that high-level modules/classes should not depend on low-level modules/classes.
+First, both should depend upon abstractions.
+
+High-level modules/classes implement business rules or logic in a system (application). 
+Low-level modules/classes deal with more detailed operations; in other words, they may write information 
+to databases or pass messages to the operating system or services.
+
+
+![](https://www.interviewbit.com/blog/wp-content/uploads/2022/05/Dependency-Inversion-Principle-768x522.png)
+
+
+
+### What are the Low-Level and High-Level Modules?
+
+The low-level modules involve more precise individual components, concentrating on details and minor parts of the application.
+These modules are utilised within the high-level modules in our application.
+
+The high-level modules define those operations in our application that possess an extremely abstract nature
+and comprise more complicated logic. These modules deal with low-level modules in our application.
+
+
+
+lets see with an example:
+
+lets say we have a notification system
+
+we have a class that sends SMS and Email.
+
+## Email module
+
+```c#
+public class Email
+{
+    public string ToAddress { get; set; }
+    public string Subject { get; set; }
+    public string Content { get; set; }
+    public void SendEmail()
+    {
+        //Send email
+    }
+}
+
+```
+
+
+## SMS module
+
+```c#
+public class SMS
+{
+    public string PhoneNumber { get; set; }
+    public string Message { get; set; }
+    public void SendSMS()
+    {
+        //Send sms
+    }
+}
+
+```
+
+
+## Notification high level module
+
+```c#
+public class Notification
+{
+    private Email _email;
+    private SMS _sms;
+    public Notification()
+    {
+        _email = new Email();
+        _sms = new SMS();
+    }
+
+    public void Send()
+    {
+        _email.SendEmail();
+        _sms.SendSMS();
+    }
+}
+```
+
+Now here the High level module Notification is tightly coupled with the low level modules.
+
+
+let's remove the dependency.
+
+The high level module looks something like below
+
+```c#
+public class Notification
+{
+    private ICollection<IMessage> _messages;
+
+    public Notification(ICollection<IMessage> messages)
+    {
+        this._messages = messages;
+    }
+    public void Send()
+    {
+        foreach(var message in _messages)
+        {
+            message.SendMessage();
+        }
+    }
+}
+```
+
+and the low level modules are like below
+
+```c#
+public interface IMessage
+{
+public void SendMessage();
+
+}
+```
+
+
+low level module
+
+```c#
+public class Email :IMessage
+{
+    public string ToAddress { get; set; }
+    public string Subject { get; set; }
+    public string Content { get; set; }
+    public void SendMessage()
+    {
+        //Send email
+    }
+}
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
